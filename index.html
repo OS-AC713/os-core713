@@ -15,9 +15,10 @@
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             color: #1a1a1a;
             line-height: 1.5;
+            overflow-x: hidden;
         }
 
-        /* ДВЕ КОЛОНКИ: НОВОСТИ СЛЕВА, ОСНОВНОЙ КОНТЕНТ СПРАВА */
+        /* ДВЕ КОЛОНКИ */
         .container {
             display: flex;
             max-width: 1200px;
@@ -26,38 +27,50 @@
             padding: 0 2rem;
         }
 
-        /* ЛЕВАЯ КОЛОНКА (НОВОСТИ) — ИЗОГНУТЫЕ */
-        .news {
+        /* ЛЕВАЯ КОЛОНКА — ИЗОГНУТАЯ ЛЕНТА 3D */
+        .news-ribbon {
             flex: 1.2;
-            background: #f0f0f0;
-            border-radius: 24px 12px 24px 12px;  /* изогнутость */
-            padding: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
+            perspective: 800px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .news:hover {
-            transform: scale(1.01);
+        .ribbon {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(5deg) rotateY(-5deg);
+            border-radius: 20px;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
         }
-        .news h2 {
-            font-size: 1.6rem;
-            margin-bottom: 1.5rem;
-            color: #007acc;
-            border-left: 4px solid #007acc;
-            padding-left: 0.75rem;
+        .ribbon-item {
+            position: absolute;
+            width: 90%;
+            left: 5%;
+            background: white;
+            padding: 1rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            backdrop-filter: blur(4px);
+            text-align: center;
         }
-        .news-item {
-            margin-bottom: 1.2rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid #ddd;
-        }
-        .news-item .date {
-            font-weight: bold;
-            color: #007acc;
-            display: inline-block;
-            width: 95px;
-        }
-        .news-item p {
-            display: inline;
+        /* Позиционирование элементов как на изогнутой ленте */
+        .item-0 { bottom: 5%; opacity: 0.3; transform: translateZ(-40px) scale(0.9); background: #ddd; }
+        .item-1 { bottom: 20%; opacity: 0.6; transform: translateZ(-20px) scale(0.95); background: #e0e0e0; }
+        .item-2 { bottom: 35%; opacity: 1; transform: translateZ(0px) scale(1); background: white; border-left: 4px solid #007acc; }
+        .item-3 { bottom: 55%; opacity: 0.8; transform: translateZ(-15px) scale(0.92); background: #eee; }
+        .item-4 { bottom: 70%; opacity: 0.5; transform: translateZ(-30px) scale(0.88); background: #ccc; }
+        .item-5 {
+            bottom: 85%;
+            opacity: 0.4;
+            transform: translateZ(-40px) scale(0.85);
+            background: #2a2a2a;
+            color: #aaa;
+            font-style: italic;
+            font-size: 0.85rem;
         }
 
         /* ПРАВАЯ КОЛОНКА (ОСНОВНОЙ КОНТЕНТ) */
@@ -115,18 +128,32 @@
             text-decoration: underline;
         }
 
-        /* АДАПТАЦИЯ ДЛЯ ТЕЛЕФОНОВ */
+        /* АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ (лента становится списком) */
         @media (max-width: 750px) {
             .container {
                 flex-direction: column;
-                padding: 1rem;
             }
-            h1 {
-                font-size: 2rem;
+            .news-ribbon {
+                height: auto;
+                perspective: none;
+            }
+            .ribbon {
+                transform: none;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .ribbon-item {
+                position: static;
+                opacity: 1 !important;
+                transform: none !important;
+                width: 100%;
+                margin-bottom: 1rem;
             }
         }
 
-        /* БОКОВОЕ МЕНЮ (ОСТАЁТСЯ ПОВЕРХ ВСЕГО) */
+        /* БОКОВОЕ МЕНЮ */
         .sidebar {
             position: fixed;
             top: 0;
@@ -201,20 +228,36 @@
     </div>
 
     <div class="container">
-        <!-- ЛЕВАЯ КОЛОНКА: НОВОСТИ (изогнутые) -->
-        <div class="news">
-            <h2>Новости</h2>
-            <div class="news-item">
-                <span class="date">2026-05-23</span>
-                <p>Сайт обновлён: добавлена новостная лента.</p>
-            </div>
-            <div class="news-item">
-                <span class="date">2026-05-23</span>
-                <p>Создан официальный сайт CORE/713. Добавлены форум и документация.</p>
-            </div>
-            <div class="news-item">
-                <span class="date">2026-05-22</span>
-                <p>Проект CORE/713 официально запущен. Выбрана лицензия Apache 2.0.</p>
+        <!-- ЛЕВАЯ КОЛОНКА: ИЗОГНУТАЯ ЛЕНТА НОВОСТЕЙ -->
+        <div class="news-ribbon">
+            <div class="ribbon">
+                <!-- Самая новая (активная) новость — по центру, яркая -->
+                <div class="ribbon-item item-2">
+                    <strong>📣 2026-05-23</strong><br>
+                    Сайт обновлён: добавлена 3D-лента новостей.
+                </div>
+                <!-- Прошлые новости (уходят вниз и темнеют) -->
+                <div class="ribbon-item item-1">
+                    <strong>2026-05-23</strong><br>
+                    Создан официальный сайт CORE/713. Добавлены форум и документация.
+                </div>
+                <div class="ribbon-item item-0">
+                    <strong>2026-05-22</strong><br>
+                    Проект CORE/713 официально запущен. Лицензия Apache 2.0.
+                </div>
+                <!-- Будущие новости (уходят вверх — тут их нет, вместо них мем) -->
+                <div class="ribbon-item item-3">
+                    <strong>Скоро</strong><br>
+                    Альфа-версия терминала.
+                </div>
+                <div class="ribbon-item item-4">
+                    <strong>Планы</strong><br>
+                    Дорожная карта, первый ISO.
+                </div>
+                <!-- Мем на верхней стороне (затемнённый) -->
+                <div class="ribbon-item item-5">
+                    🕶️ «Не смотри в будущее, Декстер.»
+                </div>
             </div>
         </div>
 
