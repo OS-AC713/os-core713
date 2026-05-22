@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>CORE/713 — изогнутая лента</title>
+    <title>CORE/713 — 3D‑дуга новостей</title>
     <style>
         * {
             margin: 0;
@@ -26,65 +26,66 @@
             padding: 0 2rem;
         }
 
-        /* ИЗОГНУТАЯ ЛЕНТА (ЧЕК) */
-        .curved-ribbon {
+        /* 3D-КОНТЕЙНЕР ДУГИ */
+        .arc-3d {
             flex: 1.2;
-            background: transparent;
+            perspective: 800px;
             height: 550px;
             overflow-y: auto;
             overflow-x: visible;
-            perspective: 800px;
             scrollbar-width: thin;
             border-radius: 20px;
         }
 
-        .curved-ribbon::-webkit-scrollbar {
+        .arc-3d::-webkit-scrollbar {
             width: 5px;
         }
-        .curved-ribbon::-webkit-scrollbar-track {
+        .arc-3d::-webkit-scrollbar-track {
             background: #e0e0e0;
             border-radius: 10px;
         }
-        .curved-ribbon::-webkit-scrollbar-thumb {
+        .arc-3d::-webkit-scrollbar-thumb {
             background: #007acc;
             border-radius: 10px;
         }
 
-        /* КОНТЕЙНЕР С ИЗОГНУТЫМИ НОВОСТЯМИ */
-        .ribbon-curve {
+        /* ДУГА: КАРТОЧКИ ВРАЩАЮТСЯ ВОКРУГ ОСИ X И Y */
+        .arc-items {
             position: relative;
             width: 100%;
             transform-style: preserve-3d;
             transition: transform 0.05s linear;
+            will-change: transform;
         }
 
         .news-card {
             position: relative;
-            width: 90%;
-            margin: 1rem auto;
+            width: 85%;
+            margin: 1.5rem auto;
             background: white;
             border-radius: 24px;
             padding: 1rem;
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
             transition: all 0.2s ease;
             border: 1px solid #f0f0f0;
-            transform-origin: center;
             scroll-snap-align: start;
+            transform-origin: center;
+            backdrop-filter: blur(2px);
         }
 
-        /* ИЗОГНУТОСТЬ: КАЖДАЯ КАРТОЧКА ПОВЁРНУТА ВОКРУГ ОСИ X И Y */
-        .news-card[data-curve="0"] { transform: rotateX(2deg) rotateY(-1deg) translateY(0px); }
-        .news-card[data-curve="1"] { transform: rotateX(1deg) rotateY(-2deg) translateY(-4px); }
-        .news-card[data-curve="2"] { transform: rotateX(0deg) rotateY(-2deg) translateY(-8px); }
-        .news-card[data-curve="3"] { transform: rotateX(-1deg) rotateY(-1deg) translateY(-12px); }
-        .news-card[data-curve="4"] { transform: rotateX(-2deg) rotateY(0deg) translateY(-16px); }
-        .news-card[data-curve="5"] { transform: rotateX(-2deg) rotateY(1deg) translateY(-20px); }
-        .news-card[data-curve="6"] { transform: rotateX(-1deg) rotateY(2deg) translateY(-24px); }
+        /* РАЗНАЯ СТЕПЕНЬ ПОВОРОТА ДЛЯ ИЛЛЮЗИИ 3D-ДУГИ */
+        .news-card[data-arc="0"] { transform: rotateX(4deg) rotateY(-15deg) translateZ(10px); }
+        .news-card[data-arc="1"] { transform: rotateX(2deg) rotateY(-8deg) translateZ(30px); }
+        .news-card[data-arc="2"] { transform: rotateX(0deg) rotateY(0deg) translateZ(50px); }
+        .news-card[data-arc="3"] { transform: rotateX(-2deg) rotateY(8deg) translateZ(30px); }
+        .news-card[data-arc="4"] { transform: rotateX(-4deg) rotateY(15deg) translateZ(10px); }
+        .news-card[data-arc="5"] { transform: rotateX(-6deg) rotateY(22deg) translateZ(-10px); }
+        .news-card[data-arc="6"] { transform: rotateX(-8deg) rotateY(28deg) translateZ(-30px); }
 
         /* АКТИВНАЯ КАРТОЧКА (В ЦЕНТРЕ) */
         .news-card.active {
             border-left: 4px solid #007acc;
-            transform: scale(1.02) rotateX(0deg) rotateY(0deg);
+            transform: scale(1.02) rotateX(0deg) rotateY(0deg) translateZ(60px);
             box-shadow: 0 12px 28px rgba(0,0,0,0.15);
             background: #ffffff;
             z-index: 10;
@@ -156,6 +157,7 @@
             color: #007acc;
             text-decoration: none;
         }
+
         a:hover {
             text-decoration: underline;
         }
@@ -209,7 +211,7 @@
             position: fixed;
             top: 24px;
             left: 24px;
-            background: rgba(255,255,255,0.8);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(4px);
             border: none;
             border-radius: 40px;
@@ -248,33 +250,33 @@
 </div>
 
 <div class="container">
-    <!-- ИЗОГНУТАЯ ЛЕНТА -->
-    <div class="curved-ribbon" id="curvedRibbon">
-        <div class="ribbon-curve" id="ribbonCurve">
-            <div class="news-card" data-curve="0">
+    <!-- ЛЕВАЯ КОЛОНКА: 3D-ДУГА НОВОСТЕЙ -->
+    <div class="arc-3d" id="arcContainer">
+        <div class="arc-items" id="arcItems">
+            <div class="news-card" data-arc="0">
                 <span class="news-date">🕶️ «Не смотри в будущее, Декстер.»</span>
             </div>
-            <div class="news-card" data-curve="1">
+            <div class="news-card" data-arc="1">
                 <span class="news-date">Планы</span>
                 Дорожная карта, первый ISO.
             </div>
-            <div class="news-card" data-curve="2">
+            <div class="news-card" data-arc="2">
                 <span class="news-date">Скоро</span>
                 Альфа-версия терминала.
             </div>
-            <div class="news-card" data-curve="3">
+            <div class="news-card" data-arc="3">
                 <span class="news-date">2026-05-23</span>
                 Сайт обновлён: добавлена 3D-лента новостей с прокруткой.
             </div>
-            <div class="news-card" data-curve="4">
+            <div class="news-card" data-arc="4">
                 <span class="news-date">2026-05-23</span>
                 Создан официальный сайт CORE/713. Добавлены форум и документация.
             </div>
-            <div class="news-card" data-curve="5">
+            <div class="news-card" data-arc="5">
                 <span class="news-date">2026-05-22</span>
                 Проект CORE/713 официально запущен. Лицензия Apache 2.0.
             </div>
-            <div class="news-card" data-curve="6">
+            <div class="news-card" data-arc="6">
                 <span class="news-date">Архив</span>
                 Основан репозиторий. Начало разработки.
             </div>
@@ -298,13 +300,13 @@
 </div>
 
 <script>
-    // АКТИВНЫЙ ЭЛЕМЕНТ ПРИ ПРОКРУТКЕ (ЦЕНТР)
-    const ribbonContainer = document.getElementById('curvedRibbon');
+    // АКТИВНАЯ КАРТОЧКА В ЦЕНТРЕ (ПРИ ПРОКРУТКЕ)
+    const arcContainer = document.getElementById('arcContainer');
     const cards = document.querySelectorAll('.news-card');
 
     function updateActiveCard() {
-        if (!ribbonContainer) return;
-        const containerRect = ribbonContainer.getBoundingClientRect();
+        if (!arcContainer) return;
+        const containerRect = arcContainer.getBoundingClientRect();
         const containerCenter = containerRect.top + containerRect.height / 2;
         let closest = null;
         let minDist = Infinity;
@@ -321,8 +323,8 @@
         if (closest) closest.classList.add('active');
     }
 
-    if (ribbonContainer) {
-        ribbonContainer.addEventListener('scroll', updateActiveCard);
+    if (arcContainer) {
+        arcContainer.addEventListener('scroll', updateActiveCard);
         window.addEventListener('resize', updateActiveCard);
         updateActiveCard();
     }
