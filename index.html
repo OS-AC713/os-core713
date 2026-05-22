@@ -8,7 +8,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none; /* чтобы при скролле не выделялся текст */
         }
 
         body {
@@ -27,7 +26,7 @@
             padding: 0 2rem;
         }
 
-        /* ЛЕВАЯ КОЛОНКА — КОНТЕЙНЕР ЛЕНТЫ С ПРОКРУТКОЙ */
+        /* ЛЕВАЯ КОЛОНКА — 3D-КОНТЕЙНЕР С ПРОКРУТКОЙ */
         .news-ribbon {
             flex: 1.2;
             perspective: 800px;
@@ -36,8 +35,9 @@
             overflow-x: hidden;
             scroll-snap-type: y mandatory;
             border-radius: 24px;
-            /* скрываем полосу прокрутки, но оставляем функционал */
             scrollbar-width: thin;
+            /* САМОЕ ВАЖНОЕ — СОХРАНЯЕМ 3D-КОНТЕКСТ */
+            transform-style: preserve-3d;
         }
         .news-ribbon::-webkit-scrollbar {
             width: 5px;
@@ -51,16 +51,17 @@
             border-radius: 10px;
         }
 
+        /* ИЗОГНУТАЯ ЛЕНТА (3D-ЦИЛИНДР) */
         .ribbon {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            padding: 1rem;
+            padding: 1.5rem;
             transform-style: preserve-3d;
-            transform: rotateX(2deg) rotateY(-2deg);
+            transform: rotateX(4deg) rotateY(-3deg);
         }
 
-        /* КАЖДАЯ НОВОСТЬ */
+        /* КАЖДАЯ НОВОСТЬ — ПЛОСКАЯ, НО В 3D-ПРОСТРАНСТВЕ */
         .ribbon-item {
             background: white;
             padding: 1rem;
@@ -72,19 +73,19 @@
             text-align: center;
         }
 
-        /* Динамические эффекты при скролле будут добавляться через JS */
+        /* Активная новость (ближе к центру) — яркая и сдвинута вперёд */
         .ribbon-item.active {
             border-left: 4px solid #007acc;
             background: white;
-            transform: scale(1.02);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+            transform: translateZ(15px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.2);
         }
 
-        /* Затемнённые (далеко вверх/вниз) */
+        /* Затемнённые (далеко вверх/вниз) — уходят в тень и немного назад */
         .ribbon-item.dim {
             opacity: 0.4;
             filter: blur(1px);
-            transform: scale(0.95);
+            transform: translateZ(-10px) scale(0.95);
         }
 
         .ribbon-item .date {
@@ -94,7 +95,7 @@
             margin-bottom: 0.5rem;
         }
 
-        /* ПРАВАЯ КОЛОНКА */
+        /* ПРАВАЯ КОЛОНКА (без изменений) */
         .main-content {
             flex: 2;
         }
@@ -158,7 +159,7 @@
             }
         }
 
-        /* БОКОВОЕ МЕНЮ */
+        /* БОКОВОЕ МЕНЮ (без изменений) */
         .sidebar {
             position: fixed;
             top: 0;
@@ -233,11 +234,11 @@
     </div>
 
     <div class="container">
-       /* прокрутка */
+        <!-- ЛЕВАЯ КОЛОНКА: ИЗОГНУТАЯ ПРОКРУЧИВАЕМАЯ ЛЕНТА -->
         <div class="news-ribbon" id="newsRibbon">
             <div class="ribbon">
                 <div class="ribbon-item">
-                    <div class="date">«Не смотри в будущее, Декстер. Я слежу за тобой..»</div>
+                    <div class="date">«Не смотри в будущее, Декстер. Я всегда за тобой слежу..»</div>
                 </div>
                 <div class="ribbon-item">
                     <div class="date">Планы</div>
@@ -306,11 +307,10 @@
 
             items.forEach(item => {
                 item.classList.remove('active', 'dim');
-                // Элементы, которые далеко от центра, делаем тусклыми
                 const rect = item.getBoundingClientRect();
                 const itemCenter = rect.top + rect.height / 2;
                 const distance = Math.abs(containerCenter - itemCenter);
-                if (item !== closestItem && distance > 100) {
+                if (item !== closestItem && distance > 80) {
                     item.classList.add('dim');
                 }
             });
