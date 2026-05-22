@@ -8,18 +8,128 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.2s ease, border-color 0.2s ease;
         }
 
+        /* СВЕТЛАЯ ТЕМА (по умолчанию) */
         body {
             background: #faf9f8;
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             color: #1a1a1a;
             line-height: 1.5;
             overflow-x: hidden;
-            <div class="news-container">
-       }
+        }
 
-        /* ДВЕ КОЛОНКИ */
+        /* ТЁМНАЯ ТЕМА */
+        body.dark-theme {
+            background: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark-theme .news,
+        body.dark-theme .timeline,
+        body.dark-theme .sidebar,
+        body.dark-theme .main-content,
+        body.dark-theme .forum-button,
+        body.dark-theme footer {
+            background-color: #1e1e1e;
+            color: #ddd;
+            border-color: #333;
+        }
+
+        body.dark-theme .news-item {
+            border-bottom-color: #333;
+        }
+
+        body.dark-theme .news-item .date {
+            color: #66b0ff;
+        }
+
+        body.dark-theme .forum-button {
+            background: #0f5b9c;
+            color: white;
+        }
+
+        body.dark-theme .sidebar {
+            background: rgba(30, 30, 30, 0.98);
+            border-right-color: #333;
+        }
+
+        body.dark-theme .sidebar a {
+            color: #ccc;
+        }
+
+        body.dark-theme .sidebar a:hover {
+            color: #66b0ff;
+        }
+
+        body.dark-theme .menu-btn {
+            background: #2c2c2c;
+            color: #ddd;
+            border-color: #444;
+        }
+
+        body.dark-theme .menu-btn:hover {
+            background: #3a3a3a;
+        }
+
+        body.dark-theme .status {
+            color: #aaa;
+            border-left-color: #66b0ff;
+        }
+
+        /* Переключатель тем */
+        .theme-switch-wrapper {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 1002;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 34px;
+            position: relative;
+            width: 60px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider {
+            background-color: #ccc;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            background-color: white;
+            bottom: 4px;
+            content: "";
+            height: 26px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 26px;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #007acc;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* ОСНОВНОЙ КОНТЕНТ (НЕ МЕНЯЕТСЯ) */
         .container {
             display: flex;
             max-width: 1200px;
@@ -28,56 +138,48 @@
             padding: 0 2rem;
         }
 
-        /* ЛЕВАЯ КОЛОНКА — ИЗОГНУТАЯ ЛЕНТА 3D */
-        .news-ribbon {
+        .news {
             flex: 1.2;
-            perspective: 800px;
-            height: 500px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .ribbon {
-            width: 100%;
-            height: 400px;
-            position: relative;
-            transform-style: preserve-3d;
-            transform: rotateX(5deg) rotateY(-5deg);
-            border-radius: 20px;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
-        }
-        .ribbon-item {
-            position: absolute;
-            width: 90%;
-            left: 5%;
-            background: white;
-            padding: 1rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            backdrop-filter: blur(4px);
-            text-align: center;
-        }
-        /* Позиционирование элементов как на изогнутой ленте */
-        .item-0 { bottom: 5%; opacity: 0.3; transform: translateZ(-40px) scale(0.9); background: #ddd; }
-        .item-1 { bottom: 20%; opacity: 0.6; transform: translateZ(-20px) scale(0.95); background: #e0e0e0; }
-        .item-2 { bottom: 35%; opacity: 1; transform: translateZ(0px) scale(1); background: white; border-left: 4px solid #007acc; }
-        .item-3 { bottom: 55%; opacity: 0.8; transform: translateZ(-15px) scale(0.92); background: #eee; }
-        .item-4 { bottom: 70%; opacity: 0.5; transform: translateZ(-30px) scale(0.88); background: #ccc; }
-        .item-5 {
-            bottom: 85%;
-            opacity: 0.4;
-            transform: translateZ(-40px) scale(0.85);
-            background: #2a2a2a;
-            color: #aaa;
-            font-style: italic;
-            font-size: 0.85rem;
+            background: #f5f5f5;
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
         }
 
-        /* ПРАВАЯ КОЛОНКА (ОСНОВНОЙ КОНТЕНТ) */
+        .news:hover {
+            transform: scale(1.01);
+        }
+
+        .news h2 {
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            color: #007acc;
+            border-left: 4px solid #007acc;
+            padding-left: 0.75rem;
+        }
+
+        .news-item {
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .news-item .date {
+            font-weight: bold;
+            color: #007acc;
+            display: inline-block;
+            width: 100px;
+        }
+
+        .news-item p {
+            display: inline;
+        }
+
         .main-content {
             flex: 2;
         }
+
         h1 {
             font-size: 2.8rem;
             font-weight: 500;
@@ -88,6 +190,14 @@
             color: transparent;
             margin-bottom: 0.5rem;
         }
+
+        body.dark-theme h1 {
+            background: linear-gradient(135deg, #ffffff, #66b0ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
         .status {
             font-size: 1rem;
             color: #4a4a4a;
@@ -95,6 +205,7 @@
             border-left: 3px solid #007acc;
             padding-left: 1rem;
         }
+
         .forum-button {
             display: inline-block;
             background: #007acc;
@@ -107,51 +218,31 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             margin: 1rem 0;
         }
+
         .forum-button:hover {
             transform: translateY(3px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
+
         hr {
             margin: 2rem 0 1.5rem;
             border: none;
             border-top: 1px solid #e2e2e2;
         }
+
         footer {
             font-size: 0.8rem;
             color: #777;
             margin-top: 2rem;
         }
+
         a {
             color: #007acc;
             text-decoration: none;
         }
+
         a:hover {
             text-decoration: underline;
-        }
-
-        /* АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ (лента становится списком) */
-        @media (max-width: 750px) {
-            .container {
-                flex-direction: column;
-            }
-            .news-ribbon {
-                height: auto;
-                perspective: none;
-            }
-            .ribbon {
-                transform: none;
-                height: auto;
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .ribbon-item {
-                position: static;
-                opacity: 1 !important;
-                transform: none !important;
-                width: 100%;
-                margin-bottom: 1rem;
-            }
         }
 
         /* БОКОВОЕ МЕНЮ */
@@ -168,20 +259,24 @@
             z-index: 1000;
             padding: 2rem 1.5rem;
         }
+
         .sidebar.open {
             left: 0;
         }
+
         .sidebar h3 {
             font-size: 1.2rem;
             font-weight: 500;
             margin-bottom: 2rem;
             color: #007acc;
         }
+
         .sidebar nav {
             display: flex;
             flex-direction: column;
             gap: 1.2rem;
         }
+
         .sidebar a {
             color: #1e1e1e;
             text-decoration: none;
@@ -189,10 +284,12 @@
             transition: color 0.2s, transform 0.2s;
             display: inline-block;
         }
+
         .sidebar a:hover {
             color: #007acc;
             transform: translateX(4px);
         }
+
         .menu-btn {
             position: fixed;
             top: 24px;
@@ -208,13 +305,35 @@
             z-index: 1001;
             transition: background 0.2s, box-shadow 0.2s;
         }
+
         .menu-btn:hover {
             background: #ffffff;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
+
+        @media (max-width: 750px) {
+            .container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .theme-switch-wrapper {
+                top: 16px;
+                right: 16px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Переключатель тем -->
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider"></div>
+        </label>
+    </div>
 
     <button class="menu-btn" id="menuBtn">☰ Меню</button>
 
@@ -229,40 +348,38 @@
     </div>
 
     <div class="container">
-        <!-- ЛЕВАЯ КОЛОНКА: ИЗОГНУТАЯ ЛЕНТА НОВОСТЕЙ -->
-        <div class="news-ribbon">
-            <div class="ribbon">
-                <!-- Самая новая (активная) новость — по центру, яркая -->
-                <div class="ribbon-item item-2">
-                    <strong> 2026-05-22</strong><br>
-                    Терминал скоро выйдет в Альфа-Тест!
-                </div>
-                <!-- Прошлые новости (уходят вниз и темнеют) -->
-                <div class="ribbon-item item-1">
-                    <strong>2026-05-22</strong><br>
-                    Создан официальный сайт CORE/713. Добавлены форум и документация.
-                </div>
-                <div class="ribbon-item item-0">
-                    <strong>2026-05-22</strong><br>
-                    Проект CORE/713 официально запущен. Лицензия Apache 2.0.
-                </div>
-                <!-- Будущие новости (уходят вверх — тут их нет, вместо них мем) -->
-                <div class="ribbon-item item-3">
-                    <strong>Скоро</strong><br>
-                    Альфа-версия терминала.
-                </div>
-                <div class="ribbon-item item-4">
-                    <strong>Планы</strong><br>
-                    Дорожная карта, первый ISO.
-                </div>
-                <!-- Мем на верхней стороне (затемнённый) -->
-                <div class="ribbon-item item-5">
-                    🕶️ «Не смотри в будущее, Декстер.»
-                </div>
+        <div class="news">
+            <h2>📣 Новости</h2>
+            <div class="news-item">
+                <span class="date">2026-05-23</span>
+                <p>Сайт обновлён: добавлена новостная лента.</p>
+            </div>
+            <div class="news-item">
+                <span class="date">2026-05-22</span>
+                <p>Терминал скоро выйдет в Альфа-Тест!</p>
+            </div>
+            <div class="news-item">
+                <span class="date">2026-05-22</span>
+                <p>Создан официальный сайт CORE/713. Добавлены форум и документация.</p>
+            </div>
+            <div class="news-item">
+                <span class="date">2026-05-22</span>
+                <p>Проект CORE/713 официально запущен. Лицензия Apache 2.0.</p>
+            </div>
+            <div class="news-item">
+                <span class="date">Скоро</span>
+                <p>Альфа-версия терминала.</p>
+            </div>
+            <div class="news-item">
+                <span class="date">Планы</span>
+                <p>Дорожная карта, первый ISO.</p>
+            </div>
+            <div class="news-item">
+                <span class="date">🕶️</span>
+                <p>«Не смотри в будущее, Декстер.»</p>
             </div>
         </div>
 
-        <!-- ПРАВАЯ КОЛОНКА: ОСНОВНОЙ КОНТЕНТ -->
         <div class="main-content">
             <h1>CORE/713</h1>
             <div class="status">Официальный сайт Операционной Системы</div>
@@ -280,6 +397,31 @@
     </div>
 
     <script>
+        // Логика переключения темы
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme) {
+            document.body.classList.add(currentTheme);
+            if (currentTheme === 'dark-theme') {
+                toggleSwitch.checked = true;
+            }
+        }
+
+        function switchTheme(e) {
+            if (e.target.checked) {
+                document.body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark-theme');
+            } else {
+                document.body.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        toggleSwitch.addEventListener('change', switchTheme, false);
+    </script>
+    <script>
+        // Меню (без изменений)
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
 
@@ -288,7 +430,7 @@
         });
 
         document.addEventListener('click', (event) => {
-            if (!sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
+            if (!sidebar.contains(event.target) && !menuBtn.contains(event.target) && sidebar.classList.contains('open')) {
                 sidebar.classList.remove('open');
             }
         });
