@@ -82,16 +82,6 @@
             transform: translateX(4px);
         }
 
-        .sidebar .soon {
-            color: #aaa;
-            cursor: default;
-        }
-
-        .sidebar .soon:hover {
-            transform: none;
-            color: #aaa;
-        }
-
         /* кнопка гамбургера */
         .menu-btn {
             position: fixed;
@@ -153,6 +143,26 @@
             padding-left: 1rem;
         }
 
+        /* НОВАЯ КНОПКА ФОРУМА С АНИМАЦИЕЙ НАЖАТИЯ */
+        .forum-button {
+            display: inline-block;
+            background: #007acc;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.1s ease, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        /* Эффект "прожимания" вниз */
+        .forum-button:hover {
+            transform: translateY(3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
         hr {
             margin: 2.5rem 0 1.5rem;
             border: none;
@@ -193,8 +203,8 @@
         <nav>
             <a href="https://github.com/OS-AC713/os-core-713" target="_blank">Проект</a>
             <a href="https://github.com/OS-AC713/os-core-713/blob/main/Documintation%20Of%20Sy713.txt" target="_blank">Документация</a>
-            <span class="soon">Форум (скоро)</span>
-            <span class="soon">Пожаловаться на баг (скоро)</span>
+            <a href="https://github.com/OS-AC713/os-core-713/discussions" target="_blank">Форум</a>
+            <a href="https://github.com/OS-AC713/os-core-713/discussions/new?category=bug-reports" target="_blank">Пожаловаться на баг</a>
         </nav>
     </div>
 
@@ -203,11 +213,14 @@
         <div class="status">Официальный сайт Операционной Системы</div>
         <p>Проект находится в активной разработке. Следите за обновлениями.</p>
 
+        <!-- КНОПКА ФОРУМА -->
+        <a href="https://github.com/OS-AC713/os-core-713/discussions" class="forum-button" target="_blank">Перейти на форум →</a>
+
         <hr>
 
         <footer>
             © 2026 OS-AC713. All rights reserved.<br>
-            Лицензия: Apache 2.0. <a href="#">Подробнее</a>
+            Лицензия: Apache 2.0.
         </footer>
     </div>
 
