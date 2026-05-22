@@ -26,18 +26,17 @@
             padding: 0 2rem;
         }
 
-        /* ЛЕВАЯ КОЛОНКА — 3D-КОНТЕЙНЕР С ПРОКРУТКОЙ */
+        /* ЛЕВАЯ КОЛОНКА: ИЗОГНУТАЯ ЛЕНТА С ПРОКРУТКОЙ */
         .news-ribbon {
             flex: 1.2;
-            perspective: 800px;
+            perspective: 1000px;
             height: 500px;
             overflow-y: auto;
             overflow-x: hidden;
-            scroll-snap-type: y mandatory;
             border-radius: 24px;
+            scroll-snap-type: y mandatory;
             scrollbar-width: thin;
-            /* САМОЕ ВАЖНОЕ — СОХРАНЯЕМ 3D-КОНТЕКСТ */
-            transform-style: preserve-3d;
+            /* Скрываем стандартную полосу прокрутки */
         }
         .news-ribbon::-webkit-scrollbar {
             width: 5px;
@@ -51,43 +50,29 @@
             border-radius: 10px;
         }
 
-        /* ИЗОГНУТАЯ ЛЕНТА (3D-ЦИЛИНДР) */
-        .ribbon {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            padding: 1.5rem;
+        /* 3D-КОНТЕЙНЕР ДЛЯ ИЗОГНУТОСТИ */
+        .ribbon-3d {
+            position: relative;
+            width: 100%;
+            min-height: 800px; /* чтобы хватило места для всех новостей */
             transform-style: preserve-3d;
             transform: rotateX(4deg) rotateY(-3deg);
         }
 
-        /* КАЖДАЯ НОВОСТЬ — ПЛОСКАЯ, НО В 3D-ПРОСТРАНСТВЕ */
+        /* КАЖДАЯ НОВОСТЬ — АБСОЛЮТНО ПОЗИЦИОНИРОВАНА */
         .ribbon-item {
+            position: absolute;
+            left: 5%;
+            width: 90%;
             background: white;
             padding: 1rem;
             border-radius: 20px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            text-align: center;
             transition: all 0.2s ease;
             scroll-snap-align: start;
             backdrop-filter: blur(2px);
-            text-align: center;
         }
-
-        /* Активная новость (ближе к центру) — яркая и сдвинута вперёд */
-        .ribbon-item.active {
-            border-left: 4px solid #007acc;
-            background: white;
-            transform: translateZ(15px) scale(1.02);
-            box-shadow: 0 12px 28px rgba(0,0,0,0.2);
-        }
-
-        /* Затемнённые (далеко вверх/вниз) — уходят в тень и немного назад */
-        .ribbon-item.dim {
-            opacity: 0.4;
-            filter: blur(1px);
-            transform: translateZ(-10px) scale(0.95);
-        }
-
         .ribbon-item .date {
             font-weight: bold;
             color: #007acc;
@@ -95,7 +80,16 @@
             margin-bottom: 0.5rem;
         }
 
-        /* ПРАВАЯ КОЛОНКА (без изменений) */
+        /* Позиционирование новостей (как в изогнутой ленте) */
+        .item-0 { top: 5%; opacity: 0.3; transform: translateZ(-30px) scale(0.9); background: #ddd; }
+        .item-1 { top: 18%; opacity: 0.5; transform: translateZ(-15px) scale(0.95); background: #e8e8e8; }
+        .item-2 { top: 32%; opacity: 0.8; transform: translateZ(-5px) scale(0.98); background: #f5f5f5; }
+        .item-3 { top: 46%; opacity: 1; transform: translateZ(10px) scale(1.02); background: white; border-left: 4px solid #007acc; }
+        .item-4 { top: 60%; opacity: 0.8; transform: translateZ(-5px) scale(0.98); background: #f5f5f5; }
+        .item-5 { top: 74%; opacity: 0.5; transform: translateZ(-15px) scale(0.95); background: #e8e8e8; }
+        .item-6 { top: 88%; opacity: 0.3; transform: translateZ(-30px) scale(0.9); background: #ddd; }
+
+        /* ПРАВАЯ КОЛОНКА */
         .main-content {
             flex: 2;
         }
@@ -159,7 +153,7 @@
             }
         }
 
-        /* БОКОВОЕ МЕНЮ (без изменений) */
+        /* БОКОВОЕ МЕНЮ */
         .sidebar {
             position: fixed;
             top: 0;
@@ -234,33 +228,33 @@
     </div>
 
     <div class="container">
-        <!-- ЛЕВАЯ КОЛОНКА: ИЗОГНУТАЯ ПРОКРУЧИВАЕМАЯ ЛЕНТА -->
+        <!-- ЛЕВАЯ КОЛОНКА: ИЗОГНУТАЯ ЛЕНТА -->
         <div class="news-ribbon" id="newsRibbon">
-            <div class="ribbon">
-                <div class="ribbon-item">
-                    <div class="date">«Не смотри в будущее, Декстер. Я всегда за тобой слежу..»</div>
+            <div class="ribbon-3d" id="ribbon3d">
+                <div class="ribbon-item item-0">
+                    <div class="date">🕶️ «Не смотри в будущее, Декстер.»</div>
                 </div>
-                <div class="ribbon-item">
+                <div class="ribbon-item item-1">
                     <div class="date">Планы</div>
                     Дорожная карта, первый ISO.
                 </div>
-                <div class="ribbon-item">
+                <div class="ribbon-item item-2">
                     <div class="date">Скоро</div>
                     Альфа-версия терминала.
                 </div>
-                <div class="ribbon-item">
+                <div class="ribbon-item item-3">
                     <div class="date">2026-05-23</div>
                     Сайт обновлён: добавлена 3D-лента новостей с прокруткой.
                 </div>
-                <div class="ribbon-item">
+                <div class="ribbon-item item-4">
                     <div class="date">2026-05-23</div>
                     Создан официальный сайт CORE/713. Добавлены форум и документация.
                 </div>
-                <div class="ribbon-item">
+                <div class="ribbon-item item-5">
                     <div class="date">2026-05-22</div>
                     Проект CORE/713 официально запущен. Лицензия Apache 2.0.
                 </div>
-                <div class="ribbon-item">
+                <div class="ribbon-item item-6">
                     <div class="date">Архив</div>
                     Основан репозиторий. Начало разработки.
                 </div>
@@ -305,18 +299,16 @@
                 }
             });
 
+            // Сбрасываем стили у всех
             items.forEach(item => {
-                item.classList.remove('active', 'dim');
-                const rect = item.getBoundingClientRect();
-                const itemCenter = rect.top + rect.height / 2;
-                const distance = Math.abs(containerCenter - itemCenter);
-                if (item !== closestItem && distance > 80) {
-                    item.classList.add('dim');
-                }
+                item.classList.remove('active');
             });
 
+            // Добавляем класс активной новости
             if (closestItem) {
                 closestItem.classList.add('active');
+                // Чтобы активная новость была по центру, если нужно (опционально)
+                // closestItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
