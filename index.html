@@ -15,29 +15,118 @@
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             color: #1a1a1a;
             line-height: 1.5;
-            overflow-x: hidden;
         }
 
-        /* лёгкая фоновая анимация */
-        @keyframes subtleMove {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 100% 100%; }
+        /* ДВЕ КОЛОНКИ: НОВОСТИ СЛЕВА, ОСНОВНОЙ КОНТЕНТ СПРАВА */
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 2rem auto;
+            gap: 2rem;
+            padding: 0 2rem;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 80% 20%, rgba(0, 122, 204, 0.03) 0%, rgba(0,0,0,0) 70%);
-            pointer-events: none;
-            z-index: -1;
-            animation: subtleMove 18s ease infinite alternate;
+        /* ЛЕВАЯ КОЛОНКА (НОВОСТИ) — ИЗОГНУТЫЕ */
+        .news {
+            flex: 1.2;
+            background: #f0f0f0;
+            border-radius: 24px 12px 24px 12px;  /* изогнутость */
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .news:hover {
+            transform: scale(1.01);
+        }
+        .news h2 {
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            color: #007acc;
+            border-left: 4px solid #007acc;
+            padding-left: 0.75rem;
+        }
+        .news-item {
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #ddd;
+        }
+        .news-item .date {
+            font-weight: bold;
+            color: #007acc;
+            display: inline-block;
+            width: 95px;
+        }
+        .news-item p {
+            display: inline;
         }
 
-        /* боковое меню */
+        /* ПРАВАЯ КОЛОНКА (ОСНОВНОЙ КОНТЕНТ) */
+        .main-content {
+            flex: 2;
+        }
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #1e1e1e, #007acc);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .status {
+            font-size: 1rem;
+            color: #4a4a4a;
+            margin-bottom: 2rem;
+            border-left: 3px solid #007acc;
+            padding-left: 1rem;
+        }
+        .forum-button {
+            display: inline-block;
+            background: #007acc;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.1s ease, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+        .forum-button:hover {
+            transform: translateY(3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        hr {
+            margin: 2rem 0 1.5rem;
+            border: none;
+            border-top: 1px solid #e2e2e2;
+        }
+        footer {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 2rem;
+        }
+        a {
+            color: #007acc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* АДАПТАЦИЯ ДЛЯ ТЕЛЕФОНОВ */
+        @media (max-width: 750px) {
+            .container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* БОКОВОЕ МЕНЮ (ОСТАЁТСЯ ПОВЕРХ ВСЕГО) */
         .sidebar {
             position: fixed;
             top: 0;
@@ -51,24 +140,20 @@
             z-index: 1000;
             padding: 2rem 1.5rem;
         }
-
         .sidebar.open {
             left: 0;
         }
-
         .sidebar h3 {
             font-size: 1.2rem;
             font-weight: 500;
             margin-bottom: 2rem;
             color: #007acc;
         }
-
         .sidebar nav {
             display: flex;
             flex-direction: column;
             gap: 1.2rem;
         }
-
         .sidebar a {
             color: #1e1e1e;
             text-decoration: none;
@@ -76,13 +161,10 @@
             transition: color 0.2s, transform 0.2s;
             display: inline-block;
         }
-
         .sidebar a:hover {
             color: #007acc;
             transform: translateX(4px);
         }
-
-        /* кнопка гамбургера */
         .menu-btn {
             position: fixed;
             top: 24px;
@@ -98,131 +180,9 @@
             z-index: 1001;
             transition: background 0.2s, box-shadow 0.2s;
         }
-
         .menu-btn:hover {
             background: #ffffff;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        /* контент — прижат к правому краю */
-        .content {
-            max-width: 720px;
-            margin-left: auto;
-            margin-right: 5%;
-            padding: 4rem 2rem;
-            animation: fadeSlideUp 0.6s ease-out;
-        }
-
-        @keyframes fadeSlideUp {
-            0% {
-                opacity: 0;
-                transform: translateY(24px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        h1 {
-            font-size: 2.8rem;
-            font-weight: 500;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #1e1e1e, #007acc);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .status {
-            font-size: 1rem;
-            color: #4a4a4a;
-            margin-bottom: 2rem;
-            border-left: 3px solid #007acc;
-            padding-left: 1rem;
-        }
-
-        /* СТИЛИ ДЛЯ НОВОСТЕЙ */
-        .news {
-            margin: 2rem 0;
-            padding: 1rem;
-            background: #f0f0f0;
-            border-radius: 8px;
-            border-left: 4px solid #007acc;
-            <div class="news-item">
-    <span class="date">2026-05-22</span>
-    <p>Обновление сайта: добавлена новостная лента.</p>
-</div>
-        }
-        
-        
-        .news h2 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            color: #007acc;
-        }
-        .news-item {
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #ddd;
-        }
-        .news-item .date {
-            font-weight: bold;
-            color: #007acc;
-            display: inline-block;
-            width: 100px;
-        }
-        .news-item p {
-            display: inline;
-        }
-
-        .forum-button {
-            display: inline-block;
-            background: #007acc;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 40px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: transform 0.1s ease, box-shadow 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            margin: 1rem 0;
-        }
-
-        .forum-button:hover {
-            transform: translateY(3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        hr {
-            margin: 2.5rem 0 1.5rem;
-            border: none;
-            border-top: 1px solid #e2e2e2;
-        }
-
-        footer {
-            font-size: 0.8rem;
-            color: #777;
-        }
-
-        a {
-            color: #007acc;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 700px) {
-            .content {
-                margin-right: 5%;
-                padding: 3rem 1.5rem;
-            }
-            h1 {
-                font-size: 2rem;
-            }
         }
     </style>
 </head>
@@ -240,36 +200,39 @@
         </nav>
     </div>
 
-    <div class="content">
-        <h1>CORE/713</h1>
-        <div class="status">Официальный сайт Операционной Системы</div>
-        <p>Проект находится в активной разработке. Следите за обновлениями.</p>
-
-        <!-- БЛОК НОВОСТЕЙ -->
+    <div class="container">
+        <!-- ЛЕВАЯ КОЛОНКА: НОВОСТИ (изогнутые) -->
         <div class="news">
-            <h2>📣 Новости</h2>
+            <h2>Новости</h2>
             <div class="news-item">
-                <span class="date">2026-05-22</span>
+                <span class="date">2026-05-23</span>
+                <p>Сайт обновлён: добавлена новостная лента.</p>
+            </div>
+            <div class="news-item">
+                <span class="date">2026-05-23</span>
                 <p>Создан официальный сайт CORE/713. Добавлены форум и документация.</p>
             </div>
             <div class="news-item">
                 <span class="date">2026-05-22</span>
                 <p>Проект CORE/713 официально запущен. Выбрана лицензия Apache 2.0.</p>
             </div>
-            <div class="news-item">
-                <span class="date">2026-05-22</span>
-                <p>Основан репозиторий. Начало разработки.</p>
-            </div>
         </div>
 
-        <a href="https://github.com/OS-AC713/os-core-713/discussions" class="forum-button" target="_blank">Перейти на форум →</a>
+        <!-- ПРАВАЯ КОЛОНКА: ОСНОВНОЙ КОНТЕНТ -->
+        <div class="main-content">
+            <h1>CORE/713</h1>
+            <div class="status">Официальный сайт Операционной Системы</div>
+            <p>Проект находится в активной разработке. Следите за обновлениями.</p>
 
-        <hr>
+            <a href="https://github.com/OS-AC713/os-core-713/discussions" class="forum-button" target="_blank">Перейти на форум →</a>
 
-        <footer>
-            © 2026 OS-AC713. All rights reserved.<br>
-            Лицензия: Apache 2.0. <a href="https://github.com/OS-AC713/os-core-713/blob/main/LICENSE">Подробнее</a>
-        </footer>
+            <hr>
+
+            <footer>
+                © 2026 OS-AC713. All rights reserved.<br>
+                Лицензия: Apache 2.0. <a href="https://github.com/OS-AC713/os-core-713/blob/main/LICENSE">Подробнее</a>
+            </footer>
+        </div>
     </div>
 
     <script>
