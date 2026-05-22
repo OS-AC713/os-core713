@@ -143,7 +143,40 @@
             padding-left: 1rem;
         }
 
-        /* НОВАЯ КНОПКА ФОРУМА С АНИМАЦИЕЙ НАЖАТИЯ */
+        /* СТИЛИ ДЛЯ НОВОСТЕЙ */
+        .news {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #f0f0f0;
+            border-radius: 8px;
+            border-left: 4px solid #007acc;
+            <div class="news-item">
+    <span class="date">2026-05-22</span>
+    <p>Обновление сайта: добавлена новостная лента.</p>
+</div>
+        }
+        
+        
+        .news h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #007acc;
+        }
+        .news-item {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+        .news-item .date {
+            font-weight: bold;
+            color: #007acc;
+            display: inline-block;
+            width: 100px;
+        }
+        .news-item p {
+            display: inline;
+        }
+
         .forum-button {
             display: inline-block;
             background: #007acc;
@@ -157,7 +190,6 @@
             margin: 1rem 0;
         }
 
-        /* Эффект "прожимания" вниз */
         .forum-button:hover {
             transform: translateY(3px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -204,7 +236,7 @@
             <a href="https://github.com/OS-AC713/os-core-713" target="_blank">Проект</a>
             <a href="https://github.com/OS-AC713/os-core-713/blob/main/Documintation%20Of%20Sy713.txt" target="_blank">Документация</a>
             <a href="https://github.com/OS-AC713/os-core-713/discussions" target="_blank">Форум</a>
-            <a href="https://github.com/OS-AC713/os-core-713/discussions/categories/bug" target="_blank">Пожаловаться на баг</a>
+            <a href="https://github.com/OS-AC713/os-core-713/discussions/new?category=bug" target="_blank">Пожаловаться на баг</a>
         </nav>
     </div>
 
@@ -213,14 +245,30 @@
         <div class="status">Официальный сайт Операционной Системы</div>
         <p>Проект находится в активной разработке. Следите за обновлениями.</p>
 
-        <!-- КНОПКА ФОРУМА -->
+        <!-- БЛОК НОВОСТЕЙ -->
+        <div class="news">
+            <h2>📣 Новости</h2>
+            <div class="news-item">
+                <span class="date">2026-05-23</span>
+                <p>Создан официальный сайт CORE/713. Добавлены форум и документация.</p>
+            </div>
+            <div class="news-item">
+                <span class="date">2026-05-22</span>
+                <p>Проект CORE/713 официально запущен. Выбрана лицензия Apache 2.0.</p>
+            </div>
+            <div class="news-item">
+                <span class="date">2026-05-21</span>
+                <p>Основан репозиторий. Начало разработки.</p>
+            </div>
+        </div>
+
         <a href="https://github.com/OS-AC713/os-core-713/discussions" class="forum-button" target="_blank">Перейти на форум →</a>
 
         <hr>
 
         <footer>
             © 2026 OS-AC713. All rights reserved.<br>
-            Лицензия: Apache 2.0.
+            Лицензия: Apache 2.0. <a href="https://github.com/OS-AC713/os-core-713/blob/main/LICENSE">Подробнее</a>
         </footer>
     </div>
 
