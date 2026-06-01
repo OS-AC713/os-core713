@@ -7,7 +7,7 @@
 [официальный форум](https://github.com/OS-AC713/os-core-713/discussions)
 [Документация](https://github.com/OS-AC713/os-core-713/blob/main/Documintation%20Of%20Sy713.txt)
 
-**Внимание: Идет выборы для дизайна сайта, возможны множественные деплойты.**
+**Выпущен ISO-образ!.**
 
 
 README.md может изменяться
