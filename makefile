@@ -1,37 +1,45 @@
-# Toolchain
-CC = gcc
-LD = ld
+ASM=nasm
+CC=gcc
+LD=ld
+OBJCOPY=objcopy
 
-# Target architectures (Defaulting to 32-bit for standard OS/bootloader tutorials)
-# Change -m32 to -m64 if you are targeting 64-bit Long Mode
-ASFLAGS = -m32 -ffreestanding
-LDFLAGS = -m elf_i386 --oformat binary -Ttext 0x1000
+SRC_DIR=kernel/src
+BUILD_DIR=build/
 
-# Directory setup
-SRC_DIR = kernel/src
-BUILD_DIR = build
-TARGET = $(BUILD_DIR)/kernel.bin
+.PHONY: all floppy_image bootloader clean always
 
-# Track the single GNU Assembly file dynamically
-SRC = $(wildcard $(SRC_DIR)/*.s)
-OBJ = $(BUILD_DIR)/kernel.o
+all: floppy_image bootloader
 
-# Default rule
-all: $(BUILD_DIR) $(TARGET)
+#
+# Floppy image
+#
+floppy_image: $(BUILD_DIR)/main_floppy.img
 
-# Create build directory safely
-$(BUILD_DIR):
+$(BUILD_DIR)/main_floppy.img: bootloader kernel
+	dd if=/dev/zero of=$(BUILD_DIR)/main_floppy.img bs=512 count=2880
+	mkfs.fat -F 12 -n "NBOS" $(BUILD_DIR)/main_floppy.img
+	dd if=$(BUILD_DIR)/boot5.bin of=$(BUILD_DIR)/main_floppy.img conv=notrunc
+	# copy -i $(BUILD_DIR)/main_floppy.img $(BUILD_DIR)/stage2.bin "::stage2.bin"
+
+#
+# Bootloader
+#
+bootloader: boot5
+
+boot5: $(BUILD_DIR)/boot5.bin
+
+$(BUILD_DIR)/boot5.bin: always
+	$(MAKE) -C $(SRC_DIR) BUILD_DIR=$(abspath $(BUILD_DIR))
+
+#
+# Always
+#
+always:
 	mkdir -p $(BUILD_DIR)
 
-# Link the object file into a raw, flat binary image
-$(TARGET): $(OBJ)
-	$(LD) $(LDFLAGS) -o $(TARGET) $(OBJ)
-
-# Assemble the GNU .s file using GCC wrapper
-$(OBJ): $(SRC) | $(BUILD_DIR)
-	$(CC) $(ASFLAGS) -c $< -o $@
-
-# Clean up build artifacts
-.PHONY: clean
+#
+# Clean
+#
 clean:
-	rm -rf $(BUILD_DIR)
+	$(MAKE) -C $(SRC_DIR)/boot5 BUILD_DIR=$(abspath $(BUILD_DIR)) clean
+	rm -rf $(BUILD_DIR)/*
