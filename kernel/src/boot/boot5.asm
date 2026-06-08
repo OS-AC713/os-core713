@@ -96,6 +96,8 @@ start:
     test dx, dx                         ; if dx != 0, add 1
     jz .root_dir_after
     inc ax                              ; division remainder != 0, add 1
+                 
+                 
                                         ; this means we have a sector only partially filled with entries
 .root_dir_after:
 
@@ -109,6 +111,7 @@ start:
     ; search for kernel.bin
     xor bx, bx
     mov di, buffer
+
 
 .search_kernel:
     mov si, file_stage2_bin
@@ -125,6 +128,7 @@ start:
 
     ; kernel not found
     jmp kernel_not_found_error
+
 
 .found_kernel:
 
@@ -143,6 +147,7 @@ start:
     mov bx, STAGE2_LOAD_SEGMENT
     mov es, bx
     mov bx, STAGE2_LOAD_OFFSET
+
 
 .load_kernel_loop:
     
@@ -376,4 +381,3 @@ times 510-($-$$) db 0
 dw 0AA55h
 
 buffer:
-
