@@ -12,7 +12,7 @@
 
 README.md может изменяться
 
-**License: apache 2.0 подробнее в файле [LICENSE](LICENSE).**
+**License: GPL v3.0 подробнее в файле [LICENSE](LICENSE).**
 
 ENG:
 
@@ -30,4 +30,4 @@ Our official links:
 
 README.md is subject to change
 
-**License: Apache 2.0. See the [LICENSE](LICENSE) file for details.**
+**License: GNU GPL v3.0 See the [LICENSE](LICENSE) file for details.**
