@@ -1,4 +1,4 @@
-; org 0x7C00                      ; Tell NASM where the code is loaded
+%include "stage2vars.inc"
 bits 16
 section .text
 
@@ -6,99 +6,177 @@ global _start
 
 _start:
 
-    mov [g_BootDrive], dl
+    cli                                                     ; Clear interupts to avoid mistake input
+    mov [g_BootDrive], dl                                   ; Save Bootdrive
 
 
-    ; Set up registers and stack
-    xor ax, ax                  ; Clear AX
-    mov ds, ax
+    mov ax, ds
     mov ss, ax
-    mov sp, 0xFFFF              ; Proper 16-bit stack pointer boundary
+    mov sp, spStackInitial                                  ; Defined in stage2vars.inc
     mov bp, sp
 
-    ; Print the boot message using BIOS
-    mov si, bootmsg
-    call puts
+    ; VBE Graphics Setup
 
-    ; Set up ES to point to video memory segment (0xB800)
-    ; Direct memory writes like [es:160] need this segment!
-    mov ax, 0xB800
-    mov es, ax
+    ; ax = Width
+    ; bx = Height
+    ; cl = bpp
+    mov ax, vbeWidth
+    mov bx, vbeHeight
+    mov cl, vbeBpp
 
-    ; --- Line 2: Prompt starts at byte 160 ---
-    mov byte [es:160], ' '
-    mov byte [es:161], 0x07
-    mov byte [es:162], ' '
-    mov byte [es:163], 0x07
-    mov byte [es:164], '&'
-    mov byte [es:165], 0x07
-    mov byte [es:166], ' '
-    mov byte [es:167], 0x07
+    ; Protected (32 bit) mode setup
 
-    ; Input pointer setup (Start typing at byte 168)
-    mov di, 168
+    ; Enable A20
+    call EnableA20
 
-    ; Enable hardware cursor
-    mov cx, 0x0100
-    mov dx, 0x0203
-    mov ah, 0x01
-    int 0x10
+    ; Load GDT (Global Descriptor Table)
+    call LoadGDT
 
-read_loop:
-    ; Read keystroke
-    mov ah, 0x00
-    int 0x16
+    ; Set the protection flag in CR0
+    mov eax, cr0        ; Contol Register 0 for protected mode
+    or al, 1            ; or sets destination (al) 1 bitwise
+    mov cr0, eax
+
+    ; Far Jump into 32 bit!!
+    jmp dword 08h:.pmode
+
+.pmode:
+    [bits 32]                                               ; Ensure 32 bit compilation
+    ; We are in 32 bits
+
+    ; Setup segment registers
+    mov ax, 0x10
+    mov ds, ax
+    mov ss, ax
     
-    ; Check for Enter key (carriage return)
-    cmp al, 0x0D
-    je newline
 
-    ; Print typed character to video memory
-    mov [es:di], al
-    mov byte [es:di+1], 0x07
-    add di, 2
-    jmp read_loop
+    ; Next up: VBE!!
 
-newline:
-    ; Calculate start of the next line
-    mov ax, di
-    add ax, 160
-    and ax, 0xFFE0              ; Align to start of 160-byte row boundary
-    mov di, ax
 
-    ; Print prompt on the new line
-    mov byte [es:di], ' '
-    mov byte [es:di+1], 0x07
-    mov byte [es:di+2], ' '
-    mov byte [es:di+3], 0x07
-    mov byte [es:di+4], '&'
-    mov byte [es:di+5], 0x07
-    mov byte [es:di+6], ' '
-    mov byte [es:di+7], 0x07
-    add di, 8
-    jmp read_loop
 
-    ; Fallback halt
-    cli
-    hlt
 
-puts:
-    pusha               ; Save all registers cleanly
 
-.loop:
-    lodsb               ; Loads next character from [ds:si] into AL
-    or al, al           ; Check if next character is null terminator (0)
-    jz .done
 
-    mov ah, 0x0E        ; BIOS teletype function
-    mov bh, 0           ; Page number 0
-    int 0x10
 
-    jmp .loop
 
-.done:
-    popa                ; Restore all registers cleanly
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+; A20 GATE
+EnableA20:
+    [bits 16]
+    ; disable keyboard
+    call A20WaitInput
+    mov al, KbdControllerDisableKeyboard
+    out KbdControllerCommandPort, al
+
+    ; read control output port
+    call A20WaitInput
+    mov al, KbdControllerReadCtrlOutputPort
+    out KbdControllerCommandPort, al
+
+    call A20WaitOutput
+    in al, KbdControllerDataPort
+    push eax
+
+    ; write control output port
+    call A20WaitInput
+    mov al, KbdControllerWriteCtrlOutputPort
+    out KbdControllerCommandPort, al
+    
+    call A20WaitInput
+    pop eax
+    or al, 2                                    ; bit 2 = A20 bit
+    out KbdControllerDataPort, al
+
+    ; enable keyboard
+    call A20WaitInput
+    mov al, KbdControllerEnableKeyboard
+    out KbdControllerCommandPort, al
+
+    call A20WaitInput
     ret
 
-section .data
-    bootmsg db "core/713 installer", 0x0D, 0x0A, 0
+
+A20WaitInput:
+    [bits 16]
+    ; wait until status bit 2 (input buffer) is 0
+    ; by reading from command port, we read status byte
+    in al, KbdControllerCommandPort
+    test al, 2
+    jnz A20WaitInput
+    ret
+
+A20WaitOutput:
+    [bits 16]
+    ; wait until status bit 1 (output buffer) is 1 so it can be read
+    in al, KbdControllerCommandPort
+    test al, 1
+    jz A20WaitOutput
+    ret
+
+
+LoadGDT:
+    [bits 16]
+    lgdt [g_GDTDesc]
+    ret
+
+
+
+
+
+
+
+
+; GDT setup (32)
+g_GDT:      ; NULL descriptor
+            dq 0
+
+            ; 32-bit code segment
+            dw 0FFFFh                   ; limit (bits 0-15) = 0xFFFFF for full 32-bit range
+            dw 0                        ; base (bits 0-15) = 0x0
+            db 0                        ; base (bits 16-23)
+            db 10011010b                ; access (present, ring 0, code segment, executable, direction 0, readable)
+            db 11001111b                ; granularity (4k pages, 32-bit pmode) + limit (bits 16-19)
+            db 0                        ; base high
+
+            ; 32-bit data segment
+            dw 0FFFFh                   ; limit (bits 0-15) = 0xFFFFF for full 32-bit range
+            dw 0                        ; base (bits 0-15) = 0x0
+            db 0                        ; base (bits 16-23)
+            db 10010010b                ; access (present, ring 0, data segment, executable, direction 0, writable)
+            db 11001111b                ; granularity (4k pages, 32-bit pmode) + limit (bits 16-19)
+            db 0                        ; base high
+
+            ; 16-bit code segment
+            dw 0FFFFh                   ; limit (bits 0-15) = 0xFFFFF
+            dw 0                        ; base (bits 0-15) = 0x0
+            db 0                        ; base (bits 16-23)
+            db 10011010b                ; access (present, ring 0, code segment, executable, direction 0, readable)
+            db 00001111b                ; granularity (1b pages, 16-bit pmode) + limit (bits 16-19)
+            db 0                        ; base high
+
+            ; 16-bit data segment
+            dw 0FFFFh                   ; limit (bits 0-15) = 0xFFFFF
+            dw 0                        ; base (bits 0-15) = 0x0
+            db 0                        ; base (bits 16-23)
+            db 10010010b                ; access (present, ring 0, data segment, executable, direction 0, writable)
+            db 00001111b                ; granularity (1b pages, 16-bit pmode) + limit (bits 16-19)
+            db 0                        ; base high
+
+g_GDTDesc:  dw g_GDTDesc - g_GDT - 1    ; limit = size of GDT
+            dd g_GDT                    ; address of GDT
+
+g_BootDrive: db 0
