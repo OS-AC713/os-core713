@@ -40,6 +40,12 @@ _start:
     ; Far Jump into 32 bit!!
     jmp dword 08h:.pmode
 
+
+
+
+
+
+
 .pmode:
     [bits 32]                                               ; Ensure 32 bit compilation
     ; We are in 32 bits
