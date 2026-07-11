@@ -1,5 +1,5 @@
 ; Stack Initilisation size (16 bit)
-spStackInitial equ 0xFFFF
+spStackInitial equ 0x7C00
 
 ; VBE
 ; ax = Width

@@ -9,9 +9,13 @@ _start:
     cli                                                     ; Clear interupts to avoid mistake input
     mov [g_BootDrive], dl                                   ; Save Bootdrive
 
+    xor ax, ax
 
-    mov ax, ds
+    mov ds, ax
+    mov es, ax
     mov ss, ax
+
+    
     mov sp, spStackInitial                                  ; Defined in stage2vars.inc
     mov bp, sp
 
@@ -23,6 +27,7 @@ _start:
     mov ax, vbeWidth
     mov bx, vbeHeight
     mov cl, vbeBpp
+    call vbeSetMode
 
     ; Protected (32 bit) mode setup
 
@@ -70,17 +75,17 @@ _start:
     ; add edi, eax                              ; edi = framebuffer + offset
     ; mov dword [edi], 0x00FF0000               ; THis draws the pixel, hex value is colour
 
-    mov edi, [vbe_screen.physical_buffer]
-    movzx eax, word [vbe_screen.pitch]
-    mov ebx, 50
-    mul ebx
-    mov ebx, 50
-    shl ebx, 2
-    add eax, ebx
-    add edi, eax
-    mov dword [edi], 0x00FF0000
+    mov edi, [vbe_screen.physical_buffer]   ; Get framebuffer base address
+    movzx eax, word [vbe_screen.pitch]      ; eax = bytes per scanline (pitch)
+    mov ebx, 50                             ; y = 50
+    mul ebx                                 ; eax = y * pitch
+    mov ebx, 50                             ; x = 50
+    shl ebx, 2                              ; ebx = x * 4 (for 32 bpp)
+    add eax, ebx                            ; eax = y * pitch + x * 4
+    add edi, eax                            ; edi = framebuffer + offset
+    mov dword [edi], 0x00FF0000             ; Draw a red pixel (0x00RRGGBB)
 
-    hlt
+    
 
 
 
@@ -253,12 +258,14 @@ vbeSetMode:
 
 .findMode:
     mov dx, [es:si]     ; Doing the offset thingy
-    add si, 2
-
+    ;add si, 2
     cmp dx, 0xFFFF      ; Comparing dx to highest value in 16 bit, essentially asking : End of list?
     je .error
 
     push es
+    push si
+    push dx
+
     mov ax, ds
     mov es, ax      ; ES must poimt to the data segment for bios call
     mov ax, 0x4F01  ; Get VBE info
@@ -267,6 +274,8 @@ vbeSetMode:
 
     int 0x10
 
+    pop es
+    pop si
     pop es
 
     ; Make sure if call fails we try next mode
@@ -315,19 +324,16 @@ vbeSetMode:
     ; Set da mode :3
     mov ax, 0x4F02
     mov bx, dx
-    or bx, 0x4000
+    or bx, 0x4000       ; Bit 14 tells BIOS to map flat 32bit framebuffer
     int 0x10
 
     cmp ax, 0x4F
     jne .error
 
-    clc     ; Sucsess
+    clc     ; Sucsess (clear carry)
     ret
 
-; Local Vars for vbeSetMode
-.width  dw 0
-.height dw 0
-.bpp    db 0
+
 
 
 
@@ -350,6 +356,7 @@ vbeSetMode:
 
 
 .nextMode:
+    add si, 2
     jmp .findMode
 
 
@@ -378,10 +385,13 @@ vbeSetMode:
 
 .error:
     stc     ; Fail
-    ret
+    jmp $
 
 
-
+; Local Vars for vbeSetMode
+.width  dw 0
+.height dw 0
+.bpp    db 0
 
 
 

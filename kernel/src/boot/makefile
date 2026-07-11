@@ -27,7 +27,7 @@ $(BUILD_DIR)/boot5.bin: boot5.asm
 
 $(BUILD_DIR)/stage2.bin: stage2.asm linker.ld
 	@mkdir -p $(BUILD_DIR)
-	# Assemble using GCC (handles the .intel_syntax directive)
+	# Assemble using GCC handles the .intel_syntax directive
 	$(ASM) stage2.asm -f elf -o $(BUILD_DIR)/stage2.o
 	# Link into a flat binary at 0x0500
 	$(LD) -m elf_i386 -T linker.ld -o $(BUILD_DIR)/stage2.bin $(BUILD_DIR)/stage2.o
