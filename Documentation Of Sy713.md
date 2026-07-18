@@ -30,7 +30,7 @@
 
 # Глава 5:
 ### ,,Будет ли работать система на ядре Linux?"
- Да, наша система уже готовится, и разработчик скоро это сделает ( кому интересно он только на главе 5 в подготовке )
+ система в основном работает на самописном ядре, но возможно скоро мы добавим совместимость с ядром Linux
  
  ### Лицензия у проекта: GPL v3.0 (подробнее в файле LICENSE).
 
@@ -76,8 +76,8 @@ Depending on the model, the BIOS may close automatically and launch the installe
 
 # Chapter 5:
 ### “Will the system run on a Linux kernel?”
- Yes, our system is already in the works, and the developer will have it ready soon (for those interested, he is currently working on Chapter 5).
+ The system primarily runs on a custom-built kernel, but we may soon add compatibility with the Linux kernel.
  
  ### Project license: GPL v3.0 (see the LICENSE file for details).
 
-Translated with DeepL.com (free version)
+
