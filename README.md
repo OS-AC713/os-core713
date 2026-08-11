@@ -1,6 +1,6 @@
 # OS CORE/713
  
-**ОС находится в этапе активной разработки, пока что пишется сам сайт для ОС. Благодарим вас за ваше ожидание.**
+**ОС временно прекратила свою разработку на 2-3 недели. Благодарим вас за ожидание.**
 
 Наши официальные ссылки:
 [официальный сайт](https://os-ac713.github.io/os-core-713/)
@@ -18,7 +18,7 @@ ENG:
 
 # OS CORE/713
  
-**The OS is currently under active development; we are currently building the official website for the OS. Thank you for your patience.**
+**Development of the OS has been temporarily paused for 2–3 weeks. Thank you for your patience.**
 
 Our official links:
 [Official Website](https://os-ac713.github.io/os-core-713/)
