@@ -3,9 +3,9 @@
 **ОС находится в этапе активной разработки, пока что пишется сам сайт для ОС. Благодарим вас за ваше ожидание.**
 
 Наши официальные ссылки:
-[официальный сайт](https://os-ac713.github.io/os-core-713/)
-[официальный форум](https://github.com/OS-AC713/os-core-713/discussions)
-[Документация](https://github.com/OS-AC713/os-core-713/blob/main/Documintation%20Of%20Sy713.txt)
+[официальный сайт](https://os-ac713.github.io/os-core713/)
+[официальный форум](https://github.com/OS-AC713/os-core713/discussions)
+[Документация](https://github.com/OS-AC713/os-core713/blob/main/Documintation%20Of%20Sy713.md)
 
 **Выпущен ISO-образ!.**
 
@@ -21,9 +21,9 @@ ENG:
 **The OS is currently under active development; we are currently building the official website for the OS. Thank you for your patience.**
 
 Our official links:
-[Official Website](https://os-ac713.github.io/os-core-713/)
-[official forum](https://github.com/OS-AC713/os-core-713/discussions)
-[Documentation](https://github.com/OS-AC713/os-core-713/blob/main/Documintation%20Of%20Sy713.txt)
+[Official Website](https://os-ac713.github.io/os-core713/)
+[official forum](https://github.com/OS-AC713/os-core713/discussions)
+[Documentation](https://github.com/OS-AC713/os-core713/blob/main/Documintation%20Of%20Sy713.md)
 
 **ISO image released!**
 
