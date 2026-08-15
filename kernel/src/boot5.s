@@ -1,3 +1,10 @@
+; project core/713, official links: https://github.com/OS-AC713/os-core713
+; File author: OS-AC713
+; Contributor: MrMagoo8888
+; File name: boot5.s
+; License: GNU GPLv3.0 ( see the LICENSE file for details: https://github.com/OS-AC713/os-core713/blob/main/LICENSE )
+;  WARNING: The file is provided WITHOUT ANY WARRANTY
+
 .code16
 .section .text
 .global _start
