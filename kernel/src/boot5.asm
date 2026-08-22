@@ -8,124 +8,180 @@
 bits 16
 ORG 0x7C00
 
+
+
 _start:
+    mov ax, 0
+    mov es, ax  ; I learned how to lay and how to work with ES
 
+_st_rddisk:
+    ; Here we begin to load the disk and start reading it
+    mov ah, 0x02
+    mov al, 1
+    mov ch, 0
+    mov cl, 2
+    mov dh, 0
+    mov dl, 0x80
+    mov bx, 0x8000
+    int 0x13
+    jc disk_error_panic
+    jmp 0x8000
+    
+ 
+
+
+; err_bios_boot:
+    ; This is just for later, then I plan to handle the error that the BIOS did not process our bootloader.
+    ;mov ah, 0x0E
+    
+    ; mov al, 'B'
+    ; int 0x10
+    ; mov al, 'o'
+    ; int 0x10
+    ; mov al, 'o'
+    ; int 0x10
+    ; mov al, 't'
+    ; int 0x10
+    ; mov al, ' '
+    ; int 0x10
+    ; mov al, 'I'
+    ; int 0x10
+    ; mov al, 'n'
+    ; int 0x10
+    ; mov al, ' '
+    ; int 0x10
+    ; mov al, 'P'
+    ; int 0x10
+    ; mov al, 'a'
+    ; int 0x10
+    ; mov al, 'n'
+    ; int 0x10
+    ; mov al, 'i'
+    ; int 0x10
+    ; mov al, 'c'
+    ; int 0x10
+    ; mov al, '!'
+    ; int 0x10
+    ; mov al, 0x0D
+    ; int 0x10
+    ; mov al, 0x0A
+    ; int 0x10
+    ; xor al, al
+    ; jmp 0x7C00_err
+
+; 0x7C00_err:
+   ; mov al, 'E'
+   ; int 0x10
+   ;  mov al, 'R'
+   ; int 0x10
+   ; mov al, ':'
+   ; int 0x10
+   ; mov al, ' '
+   ; int 0x10
+   ; mov al, 'U'
+   ; int 0x10
+   ; mov al, 'N'
+   ; int 0x10
+   ; mov al, 'B'
+   ; int 0x10
+   ; mov al, '_'
+   ; int 0x10
+   ; mov al, 'L'
+   ; int 0x10
+   ; mov al, 'D'
+   ; int 0x10
+   ; mov al, '_'
+   ; int 0x10
+   ; mov al, 'B'
+   ; int 0x10
+   ; mov al, 'I'
+   ; int 0x10
+   ; mov al, 'O'
+   ; int 0x10
+   ; mov al, 'S'
+   ; int 0x10
+   ; xor al, al
+
+disk_error_panic:
     mov ah, 0x0E
-    xor bh, bh
-
-
-    mov al, 'C'
+    
+    mov al, 'B'
     int 0x10
     mov al, 'o'
     int 0x10
-    mov al, 'r'
+    mov al, 'o'
     int 0x10
-    mov al, 'e'
+    mov al, 't'
     int 0x10
-    mov al, '/'
+    mov al, ' '
     int 0x10
-    mov al, '7'
+    mov al, 'I'
     int 0x10
-    mov al, '1'
+    mov al, 'n'
     int 0x10
-    mov al, '3'
+    mov al, ' '
     int 0x10
-
- 
+    mov al, 'P'
+    int 0x10
+    mov al, 'a'
+    int 0x10
+    mov al, 'n'
+    int 0x10
+    mov al, 'i'
+    int 0x10
+    mov al, 'c'
+    int 0x10
+    mov al, '!'
+    int 0x10
     mov al, 0x0D
     int 0x10
     mov al, 0x0A
     int 0x10
+    xor al, al
+    cmp al, 0 
+    je err_dsk
+    
 
 
-    mov al, '<'
+
+err_dsk:
+    mov al, 'E'
     int 0x10
-    mov al, '>'
+    mov al, 'R'
     int 0x10
-    mov al, '&'
-    int 0x10
-    mov al, ' '
-    int 0x10
-
-    xor cx, cx          
-
-main_loop:
-
-    mov ah, 0x01
-    int 0x16
-    jz main_loop
-
-    mov ah, 0x00
-    int 0x16            
-
-
-    cmp al, 0x0D
-    jne check_backspace
-    call newline
-    jmp main_loop
-
-check_backspace:
-
-    cmp al, 0x08
-    jne print_char
-
-    cmp cx, 0
-    je main_loop        
-
-
-    call delete_char
-    dec cx              
-    jmp main_loop
-
-print_char:
-   
-    cmp al, 0x20        
-    jb main_loop        
-
-    mov ah, 0x0E
-    xor bh, bh
-    int 0x10
-    inc cx              
-    jmp main_loop
-
-
-newline:
-    mov ah, 0x0E
-    xor bh, bh
-    mov al, 0x0D
-    int 0x10
-    mov al, 0x0A
-    int 0x10
-
-
-    mov al, '<'
-    int 0x10
-    mov al, '>'
-    int 0x10
-    mov al, '&'
+    mov al, ':'
     int 0x10
     mov al, ' '
     int 0x10
-
-    xor cx, cx          
-    ret
-
-delete_char:
-    mov ah, 0x0E
-    xor bh, bh
-
-
-    mov al, 0x08        
+    mov al, 'D'
     int 0x10
-
-
-    mov al, ' '
+    mov al, 'S'
     int 0x10
-
-
-    mov al, 0x08
+    mov al, 'K'
     int 0x10
-    ret
+    mov al, '_'
+    int 0x10
+    mov al, 'U'
+    int 0x10
+    mov al, 'N'
+    int 0x10
+    mov al, 'B'
+    int 0x10
+    mov al, '_'
+    int 0x10
+    mov al, 'R'
+    int 0x10
+    mov al, 'E'
+    int 0x10
+    mov al, 'A'
+    int 0x10
+    mov al, 'D'
+    int 0x10
+    jmp hang
+
+hang:
+    cli
+    hlt
 
 
 times 510 - ($ - $$) db 0
