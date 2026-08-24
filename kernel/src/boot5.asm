@@ -4,6 +4,7 @@
 ; File name: boot5.asm
 ; License: GNU GPLv3.0 ( see the LICENSE file for details: https://github.com/OS-AC713/os-core713/blob/main/LICENSE )
 ;  WARNING: The file is provided WITHOUT ANY WARRANTY
+;    TO SEE HOW TO CORRECTLY COMPILE A FILE, LOOK AT THE COMMIT ON THIS FILE!
 
 bits 16
 ORG 0x7C00
@@ -26,9 +27,10 @@ _st_rddisk:
     int 0x13
     
     jmp disk_rd_succes
-    
+
     jc _disk_error_panic
     
+ 
 
     
  
@@ -141,12 +143,6 @@ _disk_error_panic:
     int 0x10
     mov al, 0x0A
     int 0x10
-    xor al, al
-    cmp al, 0 
-    mov al, 0x0D
-    int 0x10
-    mov al, 0x0A
-    int 0x10
     mov al, 'E'
     int 0x10
     mov al, 'R'
@@ -181,7 +177,7 @@ _disk_error_panic:
     int 0x10
 
 disk_rd_succes:
-    jmp hang
+    jmp 0x0000:0x7E00
 
 hang:
     cli
