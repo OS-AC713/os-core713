@@ -22,10 +22,14 @@ _st_rddisk:
     mov cl, 2
     mov dh, 0
     mov dl, 0x80
-    mov bx, 0x8000
+    mov bx, 0x7E00
     int 0x13
-    jc disk_error_panic
-    jmp 0x8000
+    
+    jmp disk_rd_succes
+    
+    jc _disk_error_panic
+    
+
     
  
 
@@ -102,7 +106,7 @@ _st_rddisk:
    ; int 0x10
    ; xor al, al
 
-disk_error_panic:
+_disk_error_panic:
     mov ah, 0x0E
     
     mov al, 'B'
@@ -139,12 +143,10 @@ disk_error_panic:
     int 0x10
     xor al, al
     cmp al, 0 
-    je err_dsk
-    
-
-
-
-err_dsk:
+    mov al, 0x0D
+    int 0x10
+    mov al, 0x0A
+    int 0x10
     mov al, 'E'
     int 0x10
     mov al, 'R'
@@ -177,11 +179,16 @@ err_dsk:
     int 0x10
     mov al, 'D'
     int 0x10
+
+disk_rd_succes:
     jmp hang
 
 hang:
     cli
     hlt
+    jmp hang
+    jmp $
+    
 
 
 times 510 - ($ - $$) db 0
