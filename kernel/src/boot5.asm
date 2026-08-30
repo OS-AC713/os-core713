@@ -6,6 +6,7 @@
 ;  WARNING: The file is provided WITHOUT ANY WARRANTY
 ;    TO SEE HOW TO CORRECTLY COMPILE A FILE, LOOK AT THE COMMIT ON THIS FILE! https://github.com/OS-AC713/os-core713/commit/f1848cb9973b5f515e8efadefe9c8a49ac503e89
 
+
 bits 16
 ORG 0x7C00
 
@@ -25,11 +26,10 @@ _st_rddisk:
     mov dl, 0x80
     mov bx, 0x7E00
     int 0x13
-    
-    jmp disk_rd_succes
 
-    jc _disk_error_panic
+    jmp disk_rd_succes
     
+    jc _disk_error_panic    
  
 
     
@@ -176,8 +176,13 @@ _disk_error_panic:
     mov al, 'D'
     int 0x10
 
+
 disk_rd_succes:
-    jmp 0x0000:0x7E00
+    pushf               
+    pop ax
+    test ax, 0x0001     
+    jnz _disk_error_panic 
+    jmp 0x0000:0x7E00   
 
 hang:
     cli
