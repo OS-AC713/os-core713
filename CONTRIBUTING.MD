@@ -26,7 +26,7 @@ If you selected Watermark:
 * a) Are you sure you are from Microsoft? Are you sure of your choice?
 * b) Have you read the terms of use, terminology, and privacy policy?
 
-###### <sub><sup><sub><sup>уоµ vоlµntаrilу аnd µnсоnditiоnаllу аgrее thаt Linµх аnd Соrе/713 аrе bеttеr thаn Windоws.</sup></sub></sup></sub>
+  ###### <sub><sup><sub><sup>уоµ vоlµntаrilу аnd µnсоnditiоnаllу аgrее thаt Linµх аnd Соrе/713 аrе bеttеr thаn Windоws.</sup></sub></sup></sub>
 
 
 
