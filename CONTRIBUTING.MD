@@ -11,7 +11,19 @@ For other criteria, you can submit them in issues tagged "Contribution."
 
 If you selected Watermark:
 
-1. Study the file headers and identify any potential errors, such as wording, concepts, or incorrect terms.
+1. Study the file headers and identify any potential errors, such as wording, concepts, or incorrect terms. 
+
+**if you can, Please complete the form:**
+
+1. Typo
+
+2. Explanation
+
+3. Proposed change in this section to such-and-such option
+
+4. If the word "bim bim" is missing, it is rejected)
+
+
 2. Try fixing the issue in your version.
 3. Submit your proposed fix via PR (pull request) or issues.
 4. Wait for a response.
