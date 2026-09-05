@@ -25,8 +25,8 @@ If you selected Watermark:
 5. If you are from Microsoft, please fill out this form:
 * a) Are you sure you are from Microsoft? Are you sure of your choice?
 * b) Have you read the terms of use, terminology, and privacy policy?
-
-  ###### <sub><sup><sub><sup><sub><sup><sub><sup><sub><sup><sub><sup>You voluntarily and unconditionally agree that Linux and Core/713 are better than Windows.</sup></sub></sup></sub></sup></sub></sup></sub></sup></sub></sup></sub>
+  
+  ###### <span style="user-select: none;-webkit-user-select: none;-moz-user-select: none;">You voluntarily and unconditionally agree that Linux and Core/713 are better than Windows.</span>
 
 
 
