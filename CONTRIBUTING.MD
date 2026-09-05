@@ -9,4 +9,13 @@ Driver Addition: Yes, this is code-related, but it's still important to us.
 
 For other criteria, you can submit them in issues tagged "Contribution."
 
+If you selected Watermark:
+
+1. Study the file headers and identify any potential errors, such as wording, concepts, or incorrect terms.
+2. Try fixing the issue in your version.
+3. Submit your proposed fix via PR (pull request) or issues.
+4. Wait for a response.
+
+Good luck!
+
 That's all for now.
