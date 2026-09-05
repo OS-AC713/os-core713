@@ -14,19 +14,26 @@ If you selected Watermark:
 1. Study the file headers and identify any potential errors, such as wording, concepts, or incorrect terms. 
 
 **if you can, Please complete the form:**
-
 1. Typo
 
 2. Explanation
 
-3. Proposed change in this section to such-and-such option
+3. Suggested change in this section to such-and-such variant
 
-4. If the word "bim bim" is missing, it is rejected)
+4. If the edit doesn't change the essence of the issue, it is rejected.
+
+5. If you are from Microsoft, please fill out this form:
+* a) Are you sure you are from Microsoft? Are you sure of your choice?
+* b) Have you read the terms of use, terminology, and privacy policy?
+
+  ###### You voluntarily and unconditionally agree that Linux and Core/713 better than  Windows.
+
+6. If the word "bim bim" is missing, it is rejected.
 
 
-2. Try fixing the issue in your version.
-3. Submit your proposed fix via PR (pull request) or issues.
-4. Wait for a response.
+7. Try fixing the issue in your version.
+8. Submit your proposed fix via PR (pull request) or issues.
+9. Wait for a response.
 
 Good luck!
 
