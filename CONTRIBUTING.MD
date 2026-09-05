@@ -26,10 +26,10 @@ If you selected Watermark:
 * a) Are you sure you are from Microsoft? Are you sure of your choice?
 * b) Have you read the terms of use, terminology, and privacy policy?
 
-<details>
-<summary>  <span style="font-size: 7px;">By clicking this button, you agree to our terms and conditions without any coercion and voluntarily.</span></summary>
-  <span style="font-size: 4px;">You voluntarily and unconditionally agree that Linux and Core/713 are better than Windows.</span>
-</details>
+  ###### <span style="font-size: 4px;">You voluntarily and unconditionally agree that Linux and Core/713 are better than Windows.</span>
+
+6. If the word "bim bim" is missing, it is rejected.
+
 
 
 6. If the word "bim bim" is missing, it is rejected.
