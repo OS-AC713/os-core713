@@ -26,8 +26,7 @@ If you selected Watermark:
 * a) Are you sure you are from Microsoft? Are you sure of your choice?
 * b) Have you read the terms of use, terminology, and privacy policy?
 
-  ###### <sub><sup>Y<sub><sup>o<sub><sup>u<sub><sup> <sub><sup>v<sub><sup>o<sub><sup>l<sub><sup>u<sub><sup>n<sub><sup>t<sub><sup>a<sub><sup>r<sub><sup>i<sub><sup>l<sub><sup>y</sup></sub></sup></sub></sup></sub></sup></sub></sup></sub></sup></sub></sup></sub></sup></sub></sup></sub></sup></sub></sup></sub></sup></sub></sup></sub></sup></sub> <sub><sup>a<sub><sup>n<sub><sup>d</sup></sub></sup></sub></sup></sub>
-
+###### <sub><sup><sub><sup>уоµ vоlµntаrilу аnd µnсоnditiоnаllу аgrее thаt Linµх аnd Соrе/713 аrе bеttеr thаn Windоws.</sup></sub></sup></sub>
 
 
 
