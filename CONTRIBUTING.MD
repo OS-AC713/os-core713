@@ -26,7 +26,7 @@ If you selected Watermark:
 * a) Are you sure you are from Microsoft? Are you sure of your choice?
 * b) Have you read the terms of use, terminology, and privacy policy?
 
-###### <sub><sup><sub><sup><sub><sup><sub><sup><sup><sub><sup>уоµ vоlµnταŗіlу аnԁ υηςοηԁιτισηαlly аgгее τһατ Lιηυх аnԁ Сοге/713 аге Ьеttег tһаո ԜіŋⅾоwЅ.</sup></sub></sup></sub></sup></sub></sup></sub></sub></sup></sub>
+  ###### <sub><sup><sub><sup><sub><sup><sub><sup><sup><sub><sup>уоµ vоlµnταŗіlу аnԁ υηςοηԁιτισηαlly аgгее τһατ Lιηυх аnԁ Сοге/713 аге Ьеttег tһаո ԜіŋⅾоwЅ.</sup></sub></sup></sub></sup></sub></sup></sub></sub></sup></sub>
 
 
 
