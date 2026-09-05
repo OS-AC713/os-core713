@@ -26,7 +26,7 @@ If you selected Watermark:
 * a) Are you sure you are from Microsoft? Are you sure of your choice?
 * b) Have you read the terms of use, terminology, and privacy policy?
 
-    ###### <span style="font-size: 7px;">You voluntarily and unconditionally agree that Linux and Core/713 are better than Windows.</span>
+    ###### <span style="font-size: 2px;">You voluntarily and unconditionally agree that Linux and Core/713 are better than Windows.</span>
 
 6. If the word "bim bim" is missing, it is rejected.
 
